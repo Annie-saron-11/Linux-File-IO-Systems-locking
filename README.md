@@ -19,155 +19,74 @@ Execute the C Program for the desired output.
 
 # PROGRAM:
 
-```
-1)
-
-
-#include <stdio.h>
-
-int main() {
-    int a = 21, b = 22;
-    int and_result, or_result;
-
-    and_result = a & b;      or_result = a | b;  
-    printf("Bitwise-AND result is = %d\n", and_result);
-    printf("Bitwise-OR result is = %d\n", or_result);
-
-    return 0;
-}
-
-
-
-2)
-
-
-#include <stdio.h>
-
-int main() {
-    int amount;
-    int n100, n50, n20, n2, n1;
-
-       printf("Enter the amount: ");
-    scanf("%d", &amount);
-
-    
-    n100 = amount / 100;
-    amount = amount % 100;
-
-    n50 = amount / 50;
-    amount = amount % 50;
-
-    n20 = amount / 20;
-    amount = amount % 20;
-
-    n2 = amount / 2;
-    amount = amount % 2;
-
-    n1 = amount / 1;
-    amount = amount % 1;
-
-        printf("There are:\n");
-    printf("%d Note(s) of 100.00\n", n100);
-    printf("%d Note(s) of 50.00\n", n50);
-    printf("%d Note(s) of 20.00\n", n20);
-    printf("%d Note(s) of 2.00\n", n2);
-    printf("%d Note(s) of 1.00\n", n1);
-
-    return 0;
-}
-
-
-
-3)
-
-
-#include <stdio.h>
-
-int main() {
-    char ch = '9';  // Given value
-
-       (ch >= 'A' && ch <= 'Z') ? printf("Uppercase Letter\n") :
-    (ch >= 'a' && ch <= 'z') ? printf("Lowercase Letter\n") :
-    (ch >= '0' && ch <= '9') ? printf("Number\n") :
-    printf("Special Character\n");
-
-    return 0;
-}
-
-
-
-4)
-
-
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-
-int main() {
-    char str[50];
-
-        printf("Enter a string: ");
-    scanf("%s", str);
-
-        for(int i = 0; str[i] != '\0'; i++) {
-        str[i] = tolower(str[i]);
-    }
-
-       printf("Lower case String is:%s\n", str);
-
-    return 0;
-}
-
-
-
-5)
-
-
-#include <stdio.h>
-
-int main() {
-    char str1[50], str2[50];
-    int i, flag = 0;
-
-    printf("Enter first string: ");
-    scanf("%s", str1);
-    printf("Enter second string: ");
-    scanf("%s", str2);
-    for(i = 0; str1[i] != '\0' || str2[i] != '\0'; i++) {
-        if(str1[i] != str2[i]) {
-            flag = 1;
-            break;
-        }
-    }
-    if(flag == 0)
-        printf("strings are same\n");
-    else
-        printf("strings are not same\n");
-
-    return 0;
-}
-
-'''
-<img width="512" height="2843" alt="image" src="https://github.com/user-attachments/assets/4f44a7a5-97be-4bb1-8412-1d6938637bd2" />
-
-
 ## 1.To Write a C program that illustrates files copying 
 
-
-
-
-
-
+```
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+int main()
+{
+char block[1024];
+int in, out;
+int nread;
+in = open("filecopy.c", O_RDONLY);
+out = open("file.out", O_WRONLY|O_CREAT, S_IRUSR|S_IWUSR);
+while((nread = read(in,block,sizeof(block))) > 0)
+write(out,block,nread);
+exit(0);}
+```
 
 ## 2.To Write a C program that illustrates files locking
 
-
+```
+//C program that illustrates files locking goes here
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/file.h>
+int main (int argc, char* argv[])
+{ char* file = argv[1];
+ int fd;
+ struct flock lock;
+ printf ("opening %s\n", file);
+ /* Open a file descriptor to the file. */
+ fd = open (file, O_WRONLY);
+// acquire shared lock
+if (flock(fd, LOCK_SH) == -1) {
+    printf("error");
+}else
+{printf("Acquiring shared lock using flock");
+}
+getchar();
+// non-atomically upgrade to exclusive lock
+// do it in non-blocking mode, i.e. fail if can't upgrade immediately
+if (flock(fd, LOCK_EX | LOCK_NB) == -1) {
+    printf("error");
+}else
+{printf("Acquiring exclusive lock using flock");}
+getchar();
+// release lock
+// lock is also released automatically when close() is called or process exits
+if (flock(fd, LOCK_UN) == -1) {
+    printf("error");
+}else{
+printf("unlocking");
+}
+getchar();
+close (fd);
+return 0;
+}
+```
 
 
 ## OUTPUT
 
+<img width="486" height="155" alt="Screenshot from 2025-11-10 10-38-31" src="https://github.com/user-attachments/assets/4bbedabb-53f3-47e8-b271-7e74ac3c6a3b" />
 
-
+<img width="917" height="1059" alt="Screenshot from 2025-11-10 10-41-42" src="https://github.com/user-attachments/assets/f8ea2d49-c977-45fd-87ec-7dd082499883" />
 
 
 # RESULT:
